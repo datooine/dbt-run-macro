@@ -5,7 +5,7 @@ from importlib.metadata import PackageNotFoundError, version
 from .api import invoke
 
 try:
-    __version__ = version("dbt-invoke")
+    __version__ = version("dbt-run-macro")
 except PackageNotFoundError:
     __version__ = "0+unknown"
 

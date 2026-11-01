@@ -26,7 +26,7 @@ class ReleaseTests(unittest.TestCase):
             ["git", *args], cwd=self.project, env=self.env, stderr=subprocess.DEVNULL,
         ).decode().strip()
 
-    def commit_version(self, version, name="dbt-invoke"):
+    def commit_version(self, version, name="dbt-run-macro"):
         (self.project / "pyproject.toml").write_text(
             f'[project]\nname = "{name}"\nversion = "{version}"\n', encoding="utf-8",
         )
@@ -84,7 +84,7 @@ class ReleaseTests(unittest.TestCase):
             make_plan(self.project)
 
     def test_wrong_distribution_name_is_rejected(self):
-        self.commit_version("0.1.0", name="gitvars")
+        self.commit_version("0.1.0", name="dbt-invoke")
         with self.assertRaisesRegex(ValueError, "distribution name"):
             make_plan(self.project)
 

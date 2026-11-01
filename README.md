@@ -1,14 +1,15 @@
-# dbt-invoke
+# dbt-run-macro
 
 Render SQL-generating dbt package macros from Python or the command line, without
 maintaining a dbt project or configuring warehouse credentials.
 
 ```sh
-python -m pip install 'dbt-invoke[bigquery]'
+python -m pip install 'dbt-run-macro[bigquery]'
 ```
 
 Requires Python 3.11+. Version 0.1 supports dbt Core 1.10 and dbt-bigquery 1.10.
-The distribution and command are `dbt-invoke`; the Python import is `dbt_invoke`.
+The PyPI distribution is `dbt-run-macro`. It installs the `dbt-invoke` command;
+the Python import is `dbt_invoke`.
 
 ## Use the CLI
 
@@ -277,8 +278,10 @@ documentation. The wheel contains the Python library and command.
 
 ## Publishing releases
 
-Publishing follows `gitvars-render`'s conventions. `pyproject.toml` is the single
-version source; `dbt-invoke --version` reads installed distribution metadata.
+Publishing follows `gitvars-render`'s conventions. The PyPI and TestPyPI project
+is `dbt-run-macro`, hosted at `datooine/dbt-run-macro` on GitHub. `pyproject.toml`
+is the single version source; `dbt-invoke --version` reads the installed
+`dbt-run-macro` distribution metadata.
 
 | Event after successful CI | Result |
 | --- | --- |
@@ -309,7 +312,7 @@ Configure trusted publishers on PyPI and TestPyPI and create GitHub environments
 
 | Setting | PyPI | TestPyPI |
 | --- | --- | --- |
-| Project | `dbt-invoke` | `dbt-invoke` |
+| Project | `dbt-run-macro` | `dbt-run-macro` |
 | Repository owner | `datooine` | `datooine` |
 | Repository name | `dbt-run-macro` | `dbt-run-macro` |
 | Workflow | `publish.yml` | `publish.yml` |

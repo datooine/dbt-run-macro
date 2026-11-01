@@ -35,8 +35,8 @@ def make_plan(project: Path, tag: str = "", run_id: int = 0, attempt: int = 1) -
         return subprocess.check_output(["git", *args], cwd=project).decode().strip()
 
     metadata = tomllib.loads((project / "pyproject.toml").read_text(encoding="utf-8"))["project"]
-    if metadata["name"] != "dbt-invoke":
-        raise ValueError("The distribution name must match the dbt-invoke trusted publisher")
+    if metadata["name"] != "dbt-run-macro":
+        raise ValueError("The distribution name must match the dbt-run-macro trusted publisher")
     current = release_version(metadata["version"])
     sha = git("rev-parse", "HEAD")
     releases = {}

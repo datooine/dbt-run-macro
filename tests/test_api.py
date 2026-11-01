@@ -63,7 +63,7 @@ class ApiTests(unittest.TestCase):
 
     def test_missing_or_incompatible_adapter_has_actionable_error(self):
         with patch("dbt_invoke.adapters.version", side_effect=PackageNotFoundError("dbt-bigquery")):
-            with self.assertRaisesRegex(ValueError, r"dbt-invoke\[bigquery\]"):
+            with self.assertRaisesRegex(ValueError, r"dbt-run-macro\[bigquery\]"):
                 runtime_versions("bigquery")
         with patch("dbt_invoke.adapters.version", return_value="2.0.0"):
             with self.assertRaisesRegex(ValueError, "1.10"):

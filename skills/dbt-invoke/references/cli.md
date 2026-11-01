@@ -1,6 +1,7 @@
 # CLI and Python
 
-Install `dbt-invoke[bigquery]` in the Python environment that will run the command.
+Install `dbt-run-macro[bigquery]` in the Python environment that will run the
+`dbt-invoke` command. The Python import remains `dbt_invoke`.
 The supported dbt Core and BigQuery adapter versions are in the 1.10 family.
 
 ```text

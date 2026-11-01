@@ -66,7 +66,7 @@ def runtime_versions(name: str) -> dict[str, str]:
             installed = version(distribution)
         except PackageNotFoundError as exc:
             raise ValueError(
-                f"{distribution} is not installed. Install dbt-invoke[bigquery] "
+                f"{distribution} is not installed. Install dbt-run-macro[bigquery] "
                 "in the Python environment running dbt-invoke."
             ) from exc
         if Version(installed).release[:2] != (1, 10):

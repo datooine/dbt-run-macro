@@ -10,9 +10,18 @@ from pathlib import Path
 
 def main():
     fixture = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "tiny_package"
-    with tempfile.TemporaryDirectory(prefix="dbt-invoke-installed-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="dbt-run-macro-installed-") as temporary:
         env = os.environ.copy()
         env.pop("PYTHONPATH", None)
+        subprocess.run([
+            sys.executable, "-c",
+            "from importlib.metadata import distribution; import dbt_invoke; "
+            "package = distribution('dbt-run-macro'); "
+            "assert package.metadata['Name'] == 'dbt-run-macro'; "
+            "assert dbt_invoke.__version__ == package.version; "
+            "assert any(entry.name == 'dbt-invoke' and entry.group == 'console_scripts' "
+            "for entry in package.entry_points)",
+        ], cwd=temporary, env=env, check=True)
         result = subprocess.run(
             [sys.executable, "-m", "dbt_invoke", "no_args", json.dumps({"local": str(fixture)}), "bigquery"],
             cwd=temporary, env=env, capture_output=True, text=True, check=False,
