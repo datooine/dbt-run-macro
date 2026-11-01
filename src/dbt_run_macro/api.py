@@ -38,10 +38,10 @@ def _invoke(
     arguments = validate(macro, adapter, args, template)
     dependency = parse_package(package)
     versions = runtime_versions(adapter)
-    workspace = Path(tempfile.mkdtemp(prefix="dbt-invoke-"))
+    workspace = Path(tempfile.mkdtemp(prefix="dbt-run-macro-"))
     try:
-        request = workspace / ".dbt-invoke-request.json"
-        response = workspace / ".dbt-invoke-response.json"
+        request = workspace / ".dbt-run-macro-request.json"
+        response = workspace / ".dbt-run-macro-response.json"
         request.write_text(json.dumps({
             "macro": macro, "package": dependency, "adapter": adapter, "args": arguments,
             "template": template, "dry_run": dry_run, "no_cache": no_cache,
@@ -58,7 +58,7 @@ def _invoke(
         )
         try:
             process = subprocess.run(
-                [sys.executable, "-m", "dbt_invoke._worker", str(request), str(response)],
+                [sys.executable, "-m", "dbt_run_macro._worker", str(request), str(response)],
                 cwd=workspace, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                 encoding="utf-8", errors="replace", check=False,
             )

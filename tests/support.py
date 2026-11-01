@@ -11,9 +11,9 @@ LOCAL = json.dumps({"local": str(FIXTURE.resolve())})
 
 def offline_environment(root: Path) -> dict:
     return {
-        "DBT_INVOKE_TEST_OFFLINE": "1",
-        "DBT_INVOKE_TEST_ATTEMPTS": str(root / "offline-attempts.txt"),
-        "DBT_INVOKE_CACHE_DIR": str(root / "cache"),
+        "DBT_RUN_MACRO_TEST_OFFLINE": "1",
+        "DBT_RUN_MACRO_TEST_ATTEMPTS": str(root / "offline-attempts.txt"),
+        "DBT_RUN_MACRO_CACHE_DIR": str(root / "cache"),
         "PYTHONPATH": os.pathsep.join(filter(None, [str(GUARD.resolve()), os.environ.get("PYTHONPATH")])),
         "GIT_CONFIG_GLOBAL": os.devnull,
         "GIT_CONFIG_NOSYSTEM": "1",

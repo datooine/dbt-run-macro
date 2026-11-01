@@ -10,8 +10,8 @@ import tempfile
 import time
 from pathlib import Path
 
-from dbt_invoke import invoke
-from dbt_invoke.adapters import runtime_versions
+from dbt_run_macro import invoke
+from dbt_run_macro.adapters import runtime_versions
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
     options = parser.parse_args()
     if options.warm_runs < 1:
         parser.error("--warm-runs must be positive")
-    with tempfile.TemporaryDirectory(prefix="dbt-invoke-benchmark-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="dbt-run-macro-benchmark-") as temporary:
         root = Path(temporary).resolve()
         package = options.package
         if not package:
@@ -37,7 +37,7 @@ def main():
                 subprocess.run(["git", *command], cwd=checkout, check=True, capture_output=True)
             sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=checkout).decode().strip()
             package = json.dumps({"git": checkout.as_uri(), "revision": sha})
-        os.environ["DBT_INVOKE_CACHE_DIR"] = str(root / "cache")
+        os.environ["DBT_RUN_MACRO_CACHE_DIR"] = str(root / "cache")
         timings = []
         for _ in range(options.warm_runs + 1):
             start = time.perf_counter()

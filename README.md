@@ -8,13 +8,13 @@ python -m pip install 'dbt-run-macro[bigquery]'
 ```
 
 Requires Python 3.11+. Version 0.1 supports dbt Core 1.10 and dbt-bigquery 1.10.
-The PyPI distribution is `dbt-run-macro`. It installs the `dbt-invoke` command;
-the Python import is `dbt_invoke`.
+The PyPI distribution is `dbt-run-macro`. It installs the `dbt-run-macro` command;
+the Python import is `dbt_run_macro`.
 
 ## Use the CLI
 
 ```text
-dbt-invoke <macro> <package> <adapter> [--args JSON] [--template PATH]
+dbt-run-macro <macro> <package> <adapter> [--args JSON] [--template PATH]
            [--dry-run] [--no-cache] [--keep-project]
 ```
 
@@ -27,7 +27,7 @@ FROM raw.orders
 ```
 
 ```sh
-dbt-invoke generate_surrogate_key dbt-labs/dbt_utils@1.3.0 bigquery \
+dbt-run-macro generate_surrogate_key dbt-labs/dbt_utils@1.3.0 bigquery \
   --args '{"field_list":["customer_id","order_id"]}' \
   --template surrogate.sql > orders.sql
 ```
@@ -44,7 +44,7 @@ macro argument support. Redirect SQL with your shell.
 ## Use Python
 
 ```python
-from dbt_invoke import invoke
+from dbt_run_macro import invoke
 
 sql = invoke(
     "generate_surrogate_key",
@@ -136,13 +136,13 @@ catalog introspection on a physical relation.
 With no template, CTE inputs produce this statement shape:
 
 ```sql
-WITH __dbt_invoke_HASH_input_0 AS (
+WITH __dbt_run_macro_HASH_input_0 AS (
     SELECT * FROM raw.events WHERE active
 ),
-__dbt_invoke_HASH_result AS (
+__dbt_run_macro_HASH_result AS (
     -- selected macro's complete query
 )
-SELECT * FROM __dbt_invoke_HASH_result
+SELECT * FROM __dbt_run_macro_HASH_result
 ```
 
 CTE descriptors contain SQL text; embedded Jinja is not evaluated. Multiple CTE
@@ -218,8 +218,8 @@ being enabled. No database credentials are read from your dbt profiles.
 
 ## Cache and troubleshooting
 
-- Dependency snapshots live in the platform's user cache directory for `dbt-invoke`.
-  Set `DBT_INVOKE_CACHE_DIR` to choose a different cache directory.
+- Dependency snapshots live in the platform's user cache directory for `dbt-run-macro`.
+  Set `DBT_RUN_MACRO_CACHE_DIR` to choose a different cache directory.
 - Cache identity includes the dependency declaration, dbt Core/adapter versions,
   and resolved dependency lock state. Macro arguments and templates do not affect it.
 - Process locks and atomic publication protect concurrent calls. Models, profiles,
@@ -233,7 +233,7 @@ being enabled. No database credentials are read from your dbt profiles.
 
 For macro errors, check its named arguments, whether it returns a complete query
 or a fragment, and whether it requires a warehouse. The bundled
-[dbt-invoke skill](skills/dbt-invoke/SKILL.md) provides assistant-facing guidance.
+[dbt-run-macro skill](skills/dbt-run-macro/SKILL.md) provides assistant-facing guidance.
 
 ## Development and validation
 
@@ -280,7 +280,7 @@ documentation. The wheel contains the Python library and command.
 
 Publishing follows `gitvars-render`'s conventions. The PyPI and TestPyPI project
 is `dbt-run-macro`, hosted at `datooine/dbt-run-macro` on GitHub. `pyproject.toml`
-is the single version source; `dbt-invoke --version` reads the installed
+is the single version source; `dbt-run-macro --version` reads the installed
 `dbt-run-macro` distribution metadata.
 
 | Event after successful CI | Result |

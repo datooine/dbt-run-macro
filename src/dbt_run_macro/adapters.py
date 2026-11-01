@@ -42,9 +42,9 @@ ADAPTERS = {
             # oauth triggers ADC discovery during adapter initialization, even for compile.
             # oauth-secrets constructs a local credential object with this dummy token.
             "method": "oauth-secrets",
-            "project": "dbt-invoke-offline",
-            "dataset": "dbt_invoke_offline",
-            "token": "dbt-invoke-offline-placeholder",
+            "project": "dbt-run-macro-offline",
+            "dataset": "dbt_run_macro_offline",
+            "token": "dbt-run-macro-offline-placeholder",
             "threads": 1,
         },
         relation=bigquery_relation,
@@ -67,7 +67,7 @@ def runtime_versions(name: str) -> dict[str, str]:
         except PackageNotFoundError as exc:
             raise ValueError(
                 f"{distribution} is not installed. Install dbt-run-macro[bigquery] "
-                "in the Python environment running dbt-invoke."
+                "in the Python environment running dbt-run-macro."
             ) from exc
         if Version(installed).release[:2] != (1, 10):
             raise ValueError(

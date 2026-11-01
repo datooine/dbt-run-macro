@@ -73,12 +73,12 @@ jobs:
           for wheel in dist/*.whl; do
             uv pip install --python "$RUNNER_TEMP/package-smoke/bin/python" "${wheel}[bigquery]"
           done
-          "$RUNNER_TEMP/package-smoke/bin/dbt-invoke" --version
-          "$RUNNER_TEMP/package-smoke/bin/python" -c 'import os, dbt_invoke; assert dbt_invoke.__version__ == os.environ["EXPECTED_VERSION"]'
+          "$RUNNER_TEMP/package-smoke/bin/dbt-run-macro" --version
+          "$RUNNER_TEMP/package-smoke/bin/python" -c 'import os, dbt_run_macro; assert dbt_run_macro.__version__ == os.environ["EXPECTED_VERSION"]'
           "$RUNNER_TEMP/package-smoke/bin/python" scripts/smoke_distribution.py
           uv pip install --python "$RUNNER_TEMP/package-smoke/bin/python" --no-deps --reinstall dist/*.tar.gz
-          "$RUNNER_TEMP/package-smoke/bin/dbt-invoke" --version
-          "$RUNNER_TEMP/package-smoke/bin/python" -c 'import os, dbt_invoke; assert dbt_invoke.__version__ == os.environ["EXPECTED_VERSION"]'
+          "$RUNNER_TEMP/package-smoke/bin/dbt-run-macro" --version
+          "$RUNNER_TEMP/package-smoke/bin/python" -c 'import os, dbt_run_macro; assert dbt_run_macro.__version__ == os.environ["EXPECTED_VERSION"]'
           "$RUNNER_TEMP/package-smoke/bin/python" scripts/smoke_distribution.py
       - uses: actions/upload-artifact@v4
         with:

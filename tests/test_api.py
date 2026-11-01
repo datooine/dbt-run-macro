@@ -10,9 +10,9 @@ from unittest.mock import patch
 
 from support import LOCAL
 
-from dbt_invoke import invoke
-from dbt_invoke.adapters import runtime_versions
-from dbt_invoke.api import _invoke
+from dbt_run_macro import invoke
+from dbt_run_macro.adapters import runtime_versions
+from dbt_run_macro.api import _invoke
 
 
 class ApiTests(unittest.TestCase):
@@ -30,7 +30,7 @@ class ApiTests(unittest.TestCase):
             return subprocess.CompletedProcess(command, 0, "dbt diagnostics\n")
 
         diagnostics = io.StringIO()
-        with patch("dbt_invoke.api.subprocess.run", side_effect=worker), contextlib.redirect_stderr(diagnostics):
+        with patch("dbt_run_macro.api.subprocess.run", side_effect=worker), contextlib.redirect_stderr(diagnostics):
             sql = invoke("named", LOCAL, "bigquery", args={"value": "example"}, template="SELECT {{ macro() }}")
         self.assertEqual(sql, "SELECT 1\n")
         self.assertEqual(diagnostics.getvalue(), "dbt diagnostics\n")
@@ -44,7 +44,7 @@ class ApiTests(unittest.TestCase):
             Path(command[-1]).write_text(json.dumps({"error": "compile failed", "kind": "runtime"}))
             return subprocess.CompletedProcess(command, 1, "logs\n")
 
-        with patch("dbt_invoke.api.subprocess.run", side_effect=worker):
+        with patch("dbt_run_macro.api.subprocess.run", side_effect=worker):
             for keep in (False, True):
                 diagnostics = io.StringIO()
                 with contextlib.redirect_stderr(diagnostics), self.assertRaisesRegex(RuntimeError, "compile failed"):
@@ -55,16 +55,16 @@ class ApiTests(unittest.TestCase):
                     self.assertIn(str(workspaces[-1]), diagnostics.getvalue())
 
     def test_no_partial_sql_when_worker_has_no_valid_result(self):
-        with patch("dbt_invoke.api.subprocess.run", return_value=subprocess.CompletedProcess([], 9, "SELECT partial\n")):
+        with patch("dbt_run_macro.api.subprocess.run", return_value=subprocess.CompletedProcess([], 9, "SELECT partial\n")):
             with contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()) as output:
                 with self.assertRaisesRegex(RuntimeError, "without a valid result"):
                     invoke("named", LOCAL, "bigquery")
             self.assertEqual(output.getvalue(), "")
 
     def test_missing_or_incompatible_adapter_has_actionable_error(self):
-        with patch("dbt_invoke.adapters.version", side_effect=PackageNotFoundError("dbt-bigquery")):
+        with patch("dbt_run_macro.adapters.version", side_effect=PackageNotFoundError("dbt-bigquery")):
             with self.assertRaisesRegex(ValueError, r"dbt-run-macro\[bigquery\]"):
                 runtime_versions("bigquery")
-        with patch("dbt_invoke.adapters.version", return_value="2.0.0"):
+        with patch("dbt_run_macro.adapters.version", return_value="2.0.0"):
             with self.assertRaisesRegex(ValueError, "1.10"):
                 runtime_versions("bigquery")

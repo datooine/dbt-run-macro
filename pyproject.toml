@@ -29,7 +29,7 @@ classifiers = [
 bigquery = ["dbt-bigquery>=1.10.2,<1.11"]
 
 [project.scripts]
-dbt-invoke = "dbt_invoke.cli:main"
+dbt-run-macro = "dbt_run_macro.cli:main"
 
 [project.urls]
 Repository = "https://github.com/datooine/dbt-run-macro"

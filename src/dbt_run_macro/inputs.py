@@ -136,7 +136,7 @@ def generate_model(macro: str, namespace: str, adapter: str, args: dict, templat
     salt = 0
     while True:
         digest = hashlib.sha256(f"{salt}:{seed}".encode()).hexdigest()[:16]
-        prefix = f"__dbt_invoke_{digest}"
+        prefix = f"__dbt_run_macro_{digest}"
         if prefix not in seed:
             break
         salt += 1

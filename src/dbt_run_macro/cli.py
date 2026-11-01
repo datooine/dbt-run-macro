@@ -14,7 +14,7 @@ def main(argv: list[str] | None = None) -> int:
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(
-        prog="dbt-invoke", description="Compile a SQL-generating dbt package macro without a warehouse.",
+        prog="dbt-run-macro", description="Compile a SQL-generating dbt package macro without a warehouse.",
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("macro", help="Unqualified macro name")
@@ -36,10 +36,10 @@ def main(argv: list[str] | None = None) -> int:
             dry_run=options.dry_run, no_cache=options.no_cache, keep_project=options.keep_project,
         )
     except (ValueError, OSError) as exc:
-        print(f"dbt-invoke: {exc}", file=sys.stderr)
+        print(f"dbt-run-macro: {exc}", file=sys.stderr)
         return 2
     except RuntimeError as exc:
-        print(f"dbt-invoke: {exc}", file=sys.stderr)
+        print(f"dbt-run-macro: {exc}", file=sys.stderr)
         return 1
     if not options.dry_run:
         sys.stdout.write(sql)

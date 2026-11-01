@@ -4,9 +4,9 @@ from pathlib import Path
 
 from support import FIXTURE
 
-from dbt_invoke.adapters import bigquery_relation, get_adapter, runtime_versions
-from dbt_invoke.dependencies import parse_package
-from dbt_invoke.inputs import generate_model, replace_placeholders, validate
+from dbt_run_macro.adapters import bigquery_relation, get_adapter, runtime_versions
+from dbt_run_macro.dependencies import parse_package
+from dbt_run_macro.inputs import generate_model, replace_placeholders, validate
 
 
 class InputTests(unittest.TestCase):

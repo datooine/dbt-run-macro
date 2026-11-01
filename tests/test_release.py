@@ -11,7 +11,7 @@ from scripts.release import make_plan, release_version
 
 class ReleaseTests(unittest.TestCase):
     def setUp(self):
-        temporary = tempfile.TemporaryDirectory(prefix="dbt-invoke-release-")
+        temporary = tempfile.TemporaryDirectory(prefix="dbt-run-macro-release-")
         self.addCleanup(temporary.cleanup)
         self.project = Path(temporary.name).resolve()
         self.env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}

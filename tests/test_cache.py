@@ -7,16 +7,16 @@ from unittest.mock import Mock, patch
 
 import yaml
 
-from dbt_invoke.dependencies import resolve
+from dbt_run_macro.dependencies import resolve
 
 
 class CacheTests(unittest.TestCase):
     def setUp(self):
-        temporary = tempfile.TemporaryDirectory(prefix="dbt-invoke-cache-")
+        temporary = tempfile.TemporaryDirectory(prefix="dbt-run-macro-cache-")
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         self.cache = self.root / "cache"
-        environment = patch.dict(os.environ, {"DBT_INVOKE_CACHE_DIR": str(self.cache)})
+        environment = patch.dict(os.environ, {"DBT_RUN_MACRO_CACHE_DIR": str(self.cache)})
         environment.start()
         self.addCleanup(environment.stop)
         self.entry = {"git": "https://example.test/repository.git", "revision": "fixed-sha"}
@@ -105,7 +105,7 @@ class CacheTests(unittest.TestCase):
     def test_cache_write_failure_does_not_discard_successful_resolution(self):
         project = self.project()
         installer = self.install(project)
-        with patch("dbt_invoke.dependencies._copy_packages", side_effect=OSError("cache is full")):
+        with patch("dbt_run_macro.dependencies._copy_packages", side_effect=OSError("cache is full")):
             self.assertEqual(resolve(project, self.entry, self.versions, installer, False), "actual_namespace")
         installer.assert_called_once()
         self.assertEqual(list((self.cache / "index").iterdir()), [])

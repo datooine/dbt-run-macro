@@ -33,6 +33,6 @@ jobs:
       - run: uv run --locked --extra bigquery ruff check .
       - run: uv run --locked --extra bigquery python -m unittest discover -s tests -v
       - name: Exercise installed command
-        run: uv run --locked --extra bigquery dbt-invoke --version
+        run: uv run --locked --extra bigquery dbt-run-macro --version
       - name: Build distributions
         run: uv build --no-sources

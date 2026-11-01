@@ -1,11 +1,11 @@
 ---
-name: dbt-invoke
-description: Render SQL-generating dbt package macros into SQL using the dbt-run-macro Python distribution and dbt-invoke CLI, including native Relations, CTE inputs, and templates for fragments. Use for macro compilation outside a maintained dbt project; warehouse execution and operational macros are unsupported.
+name: dbt-run-macro
+description: Render SQL-generating dbt package macros into SQL using the dbt-run-macro Python distribution and dbt-run-macro CLI, including native Relations, CTE inputs, and templates for fragments. Use for macro compilation outside a maintained dbt project; warehouse execution and operational macros are unsupported.
 ---
 
-Use `dbt-invoke` to return compiled SQL from a known dbt package macro. It exposes
+Use `dbt-run-macro` to return compiled SQL from a known dbt package macro. It exposes
 one Python function and one CLI, installed from the `dbt-run-macro` PyPI
-distribution. The Python import is `dbt_invoke`. BigQuery is the supported adapter
+distribution. The Python import is `dbt_run_macro`. BigQuery is the supported adapter
 in v0.1.
 
 Inspect the macro's source or package documentation to identify its named

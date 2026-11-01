@@ -1,11 +1,11 @@
 # CLI and Python
 
 Install `dbt-run-macro[bigquery]` in the Python environment that will run the
-`dbt-invoke` command. The Python import remains `dbt_invoke`.
+`dbt-run-macro` command. The Python import remains `dbt_run_macro`.
 The supported dbt Core and BigQuery adapter versions are in the 1.10 family.
 
 ```text
-dbt-invoke <macro> <package> bigquery [--args JSON] [--template PATH]
+dbt-run-macro <macro> <package> bigquery [--args JSON] [--template PATH]
            [--dry-run] [--no-cache] [--keep-project]
 ```
 
@@ -21,7 +21,7 @@ The package argument uses dbt dependency declarations. Hub shorthand
 For Git or local sources, pass a JSON-encoded standard dbt dependency entry:
 
 ```sh
-dbt-invoke my_macro \
+dbt-run-macro my_macro \
   '{"git":"https://github.com/owner/repo.git","revision":"v1.0.0"}' \
   bigquery --args '{"value":"example"}'
 ```
@@ -32,7 +32,7 @@ Prefer an exact Hub version or Git commit SHA. dbt resolves transitive dependenc
 and produces the dependency lock file.
 
 ```python
-from dbt_invoke import invoke
+from dbt_run_macro import invoke
 
 sql = invoke(
     "generate_surrogate_key", "dbt-labs/dbt_utils@1.3.0", "bigquery",

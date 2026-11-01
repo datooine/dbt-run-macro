@@ -79,8 +79,8 @@ def namespace(project: Path, entry: dict) -> str:
 
 
 def cache_root() -> Path:
-    override = os.environ.get("DBT_INVOKE_CACHE_DIR")
-    return Path(override).expanduser().resolve() if override else user_cache_path("dbt-invoke")
+    override = os.environ.get("DBT_RUN_MACRO_CACHE_DIR")
+    return Path(override).expanduser().resolve() if override else user_cache_path("dbt-run-macro")
 
 
 def _copy_packages(source: Path, destination: Path):

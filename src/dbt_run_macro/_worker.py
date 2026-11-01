@@ -10,7 +10,7 @@ from .adapters import get_adapter
 from .dependencies import resolve
 from .inputs import generate_model
 
-PROJECT = "dbt_invoke_generated"
+PROJECT = "dbt_run_macro_generated"
 
 
 def execute(workspace: Path, request: dict) -> str:

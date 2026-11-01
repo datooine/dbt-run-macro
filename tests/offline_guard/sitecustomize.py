@@ -2,13 +2,13 @@
 
 import os
 
-if os.environ.get("DBT_INVOKE_TEST_OFFLINE") == "1":
+if os.environ.get("DBT_RUN_MACRO_TEST_OFFLINE") == "1":
     import socket
 
     import google.auth
 
     def blocked(*args, **kwargs):
-        path = os.environ.get("DBT_INVOKE_TEST_ATTEMPTS")
+        path = os.environ.get("DBT_RUN_MACRO_TEST_ATTEMPTS")
         if path:
             with open(path, "a", encoding="utf-8") as stream:
                 stream.write("network or credential discovery attempted\n")
