@@ -1,0 +1,5 @@
+include uv.lock
+include dbt-invoke-spec.md
+recursive-include scripts *.py
+recursive-include skills *.md
+recursive-include tests *.py *.sql *.yml

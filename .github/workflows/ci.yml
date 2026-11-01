@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ['3.11', '3.12', '3.13']
+        include:
+          - os: windows-latest
+            python: '3.12'
+          - os: macos-latest
+            python: '3.12'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.8.17'
+      - run: uv sync --locked --extra bigquery
+      - run: uv run --locked --extra bigquery ruff check .
+      - run: uv run --locked --extra bigquery python -m unittest discover -s tests -v
+      - name: Exercise installed command
+        run: uv run --locked --extra bigquery dbt-invoke --version
+      - name: Build distributions
+        run: uv build --no-sources
